@@ -2,6 +2,7 @@ extends KinematicBody
 
 var Death
 var Kill 
+#warning-ignore:unused_class_variable
 var Health 
 var aiming = false
 var Name =""
@@ -25,9 +26,11 @@ var orientation = Transform()
 var airborne_time = 100
 const MIN_AIRBORNE_TIME = 0.1
 
-const JUMP_SPEED = 5
+const JUMP_SPEED = 7
 
 var root_motion = Transform()
+signal Kill_count(cnt)
+signal Kill_increase_counter()
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -42,6 +45,7 @@ func _ready():
 	orientation.origin = Vector3()
 	Kill=0
 	Death=0
+	emit_signal("Kill_count", 0)
 	pass
 func _physics_process(delta):
 	var motion_target = Vector2( 	Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
@@ -169,23 +173,19 @@ func _physics_process(delta):
 	velocity.x = h_velocity.x
 	velocity.z = h_velocity.z		
 	velocity += GRAVITY * delta
-	velocity = move_and_slide(velocity,Vector3(0,1,0))
+	velocity = move_and_slide(velocity,Vector3(0.0,1.0,0.0))
 
 	orientation.origin = Vector3() #clear accumulated root motion displacement (was applied to speed)
 	orientation = orientation.orthonormalized() # orthonormalize orientation
 	
 	$"Scene Root".global_transform.basis = orientation.basis
 	
-	
-		
-		
-	
-	
 func _init():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func do_kill():
 	Kill+=1
-	get_node("Health").heal(1)
-	print("kill")
+	get_node("Health").heal(5)
+	emit_signal("Kill_increase_counter")
 	pass
+

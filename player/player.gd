@@ -1,23 +1,20 @@
 extends KinematicBody
 
-var Death
-var Kill 
-#warning-ignore:unused_class_variable
-var Health 
-var aiming = false
-var Name =""
+
+puppet var aiming = false
+puppet var jump_pressed = false
 const CAMERA_ROTATION_SPEED = 0.001
 const GRAVITY = Vector3(0,-9.8, 0)
 const DIRECTION_INTERPOLATE_SPEED = 1
 
 const MOTION_INTERPOLATE_SPEED = 10
 const ROTATION_INTERPOLATE_SPEED = 10
-var motion = Vector2()
-
+puppet var motion = Vector2()
+puppet var puppet_pos = Vector3()
 const CAMERA_X_ROT_MIN = -40
 const CAMERA_X_ROT_MAX = 30
 
-var camera_x_rot = 0.0
+puppet var camera_x_rot = 0.0
 
 var velocity = Vector3()
 
@@ -26,33 +23,50 @@ var orientation = Transform()
 var airborne_time = 100
 const MIN_AIRBORNE_TIME = 0.1
 
-const JUMP_SPEED = 7
+const JUMP_SPEED = 5
 
 var root_motion = Transform()
-signal Kill_count(cnt)
-signal Kill_increase_counter()
+
+enum ANIMATION_STATE{STRAFE=0,WALK=1,JUMP_UP=2,JUMP_DOWN=3}
+puppet var current_animation = ANIMATION_STATE.STRAFE
 
 func _input(event):
 	if event is InputEventMouseMotion:
 		$camera_base.rotate_y( -event.relative.x * CAMERA_ROTATION_SPEED )
 		$camera_base.orthonormalize() # after relative transforms, camera needs to be renormalized
 		camera_x_rot = clamp(camera_x_rot + event.relative.y * CAMERA_ROTATION_SPEED,deg2rad(CAMERA_X_ROT_MIN), deg2rad(CAMERA_X_ROT_MAX) )
+		rset('camera_x_rot',camera_x_rot)
 		$camera_base/camera_rot.rotation.x =  camera_x_rot
 
 func _ready():
-	Name=get_name()
+	#pre initialize orientation transform	
 	orientation=$"Scene Root".global_transform
 	orientation.origin = Vector3()
-	Kill=0
-	Death=0
-	emit_signal("Kill_count", 0)
-	pass
-func _physics_process(delta):
-	var motion_target = Vector2( 	Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
-									Input.get_action_strength("move_forward") - Input.get_action_strength("move_back") )
-			
-	motion = motion.linear_interpolate(motion_target, MOTION_INTERPOLATE_SPEED * delta)
+	if is_network_master():
+		$camera_base/camera_rot/Camera.current = true
+		set_process_input(true)
+	else:
+		$camera_base/camera_rot/Camera.current = false
+		set_process_input(false)
 	
+func _physics_process(delta):
+	if is_network_master():
+		var motion_target = Vector2( 	Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
+										Input.get_action_strength("move_forward") - Input.get_action_strength("move_back") )
+		motion = motion.linear_interpolate(motion_target, MOTION_INTERPOLATE_SPEED * delta)
+		rset("motion",motion)
+		rset_unreliable('puppet_pos',transform.origin)
+		var current_aim = Input.is_action_pressed("aim")
+		if (aiming != current_aim):
+				aiming = current_aim
+				if (aiming):
+					$camera_base/animation.play("shoot")
+				else:
+					$camera_base/animation.play("far")
+		rset('aiming',aiming)
+	else:
+		transform.origin = puppet_pos
+		$camera_base/camera_rot.rotation.x =  camera_x_rot
 	var cam_z = - $camera_base/camera_rot/Camera.global_transform.basis.z			
 	var cam_x = $camera_base/camera_rot/Camera.global_transform.basis.x
 	
@@ -61,14 +75,7 @@ func _physics_process(delta):
 	cam_x.y=0
 	cam_x = cam_x.normalized()
 	
-	var current_aim = Input.is_action_pressed("aim")
 	
-	if (aiming != current_aim):
-			aiming = current_aim
-			if (aiming):
-				$camera_base/animation.play("shoot")
-			else:
-				$camera_base/animation.play("far")
 	
 	# jump/air logic
 	airborne_time += delta
@@ -78,8 +85,10 @@ func _physics_process(delta):
 		airborne_time = 0
 		
 	var on_air = airborne_time > MIN_AIRBORNE_TIME
-	
-	if (not on_air and Input.is_action_just_pressed("jump")):
+	if is_network_master():
+		jump_pressed = Input.is_action_just_pressed("jump")
+		rset('jump_pressed',jump_pressed)
+	if (not on_air and jump_pressed):
 		velocity.y = JUMP_SPEED
 		on_air = true
 		$animation_tree["parameters/state/current"]=2
@@ -93,7 +102,7 @@ func _physics_process(delta):
 		else:
 			$animation_tree["parameters/state/current"]=3
 	
-	elif (aiming):
+	if (aiming):
 		
 		# change state to strafe
 		$animation_tree["parameters/state/current"]=0
@@ -118,30 +127,8 @@ func _physics_process(delta):
 		# get root motion transform
 		root_motion = $animation_tree.get_root_motion_transform()		
 
-		if (Input.is_action_just_pressed("shoot")):
-			var shoot_from = $"Scene Root/Robot_Skeleton/Skeleton/gun_bone/shoot_from".global_transform.origin
-			var cam = $camera_base/camera_rot/Camera
-			
-			var ch_pos = $crosshair.rect_position + $crosshair.rect_size * 0.5
-			var ray_from = cam.project_ray_origin(ch_pos)
-			var ray_dir = cam.project_ray_normal(ch_pos)
-			var shoot_target
-			
-			var col = get_world().direct_space_state.intersect_ray( ray_from, ray_from + ray_dir * 1000, [self] )
-			if (col.empty()):
-				shoot_target = ray_from + ray_dir * 1000
-			else:
-				shoot_target = col.position
-				
-			var shoot_dir = (shoot_target - shoot_from).normalized()
-			
-			var bullet = preload("res://player/bullet.tscn").instance()
-			bullet.Player_Name=Name
-			get_parent().add_child(bullet)
-			bullet.global_transform.origin = shoot_from
-			bullet.direction = shoot_dir 	
-			bullet.add_collision_exception_with(self)
-			$sfx/shoot.play()							
+		if (Input.is_action_just_pressed("shoot")) and is_network_master():
+			rpc("shoot")
 			
 	else: 		
 		# convert orientation to quaternions for interpolating rotation
@@ -173,19 +160,43 @@ func _physics_process(delta):
 	velocity.x = h_velocity.x
 	velocity.z = h_velocity.z		
 	velocity += GRAVITY * delta
-	velocity = move_and_slide(velocity,Vector3(0.0,1.0,0.0))
+	velocity = move_and_slide(velocity,Vector3(0,1,0))
 
 	orientation.origin = Vector3() #clear accumulated root motion displacement (was applied to speed)
 	orientation = orientation.orthonormalized() # orthonormalize orientation
 	
 	$"Scene Root".global_transform.basis = orientation.basis
 	
-func _init():
+	
+		
+		
+	
+	
+func init(name, new_position, is_slave):
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	transform.origin = new_position
 
-func do_kill():
-	Kill+=1
-	get_node("Health").heal(5)
-	emit_signal("Kill_increase_counter")
-	pass
 
+remotesync func shoot():
+	var shoot_from = $"Scene Root/Robot_Skeleton/Skeleton/gun_bone/shoot_from".global_transform.origin
+	var cam = $camera_base/camera_rot/Camera
+	
+	var ch_pos = $crosshair.rect_position + $crosshair.rect_size * 0.5
+	var ray_from = cam.project_ray_origin(ch_pos)
+	var ray_dir = cam.project_ray_normal(ch_pos)
+	var shoot_target
+	
+	var col = get_world().direct_space_state.intersect_ray( ray_from, ray_from + ray_dir * 1000, [self] )
+	if (col.empty()):
+		shoot_target = ray_from + ray_dir * 1000
+	else:
+		shoot_target = col.position
+		
+	var shoot_dir = (shoot_target - shoot_from).normalized()
+	
+	var bullet = preload("res://player/bullet.tscn").instance()
+	get_parent().add_child(bullet)
+	bullet.global_transform.origin = shoot_from
+	bullet.direction = shoot_dir 	
+	bullet.add_collision_exception_with(self)
+	$sfx/shoot.play()

@@ -156,15 +156,18 @@ material/0 = null
 
 [node name="Particles" type="CPUParticles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00988865, 0, 0 )
+visible = false
 amount = 100
 lifetime = 0.3
 local_coords = false
 mesh = SubResource( 4 )
 spread = 180.0
 gravity = Vector3( 0, -1, 0 )
+angular_velocity = 0.030303
 color_ramp = SubResource( 5 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
+visible = false
 light_color = Color( 0, 1, 0.952941, 1 )
 light_energy = 1.5
 shadow_enabled = true
@@ -176,6 +179,7 @@ shape = SubResource( 6 )
 
 [node name="explosion" type="CPUParticles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.452378, 0 )
+visible = false
 emitting = false
 explosiveness = 1.0
 mesh = SubResource( 8 )

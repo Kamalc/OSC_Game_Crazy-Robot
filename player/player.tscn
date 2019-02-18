@@ -157,7 +157,7 @@ y_label = "gun"
 [sub_resource type="AnimationNodeBlendTree" id=22]
 
 resource_local_to_scene = true
-graph_offset = Vector2( 206.667, -31 )
+graph_offset = Vector2( -357.331, 58.1984 )
 nodes/aim/node = SubResource( 1 )
 nodes/aim/position = Vector2( 340, 120 )
 nodes/aimdown/node = SubResource( 2 )
@@ -183,7 +183,7 @@ nodes/strafe/node = SubResource( 16 )
 nodes/strafe/position = Vector2( -340, 0 )
 nodes/walk/node = SubResource( 21 )
 nodes/walk/position = Vector2( -360, 160 )
-node_connections = [ "output", 0, "eye_blend", "state", 0, "strafe", "state", 1, "walk", "state", 2, "jumpup", "state", 3, "jumpdown", "land", 0, "state", "land", 1, "hardland", "eye_blend", 0, "aim", "eye_blend", 1, "eyes", "aim", 0, "aimdown", "aim", 1, "land", "aim", 2, "aimup" ]
+node_connections = [ "output", 0, "eye_blend", "state", 0, "strafe", "state", 1, "walk", "state", 2, "jumpup", "state", 3, "jumpdown", "land", 0, "state", "land", 1, "hardland", "aim", 0, "aimdown", "aim", 1, "land", "aim", 2, "aimup", "eye_blend", 0, "aim", "eye_blend", 1, "eyes" ]
 
 [sub_resource type="CapsuleShape" id=23]
 
@@ -326,10 +326,12 @@ collision_layer = 3
 script = ExtResource( 1 )
 
 [node name="Scene Root" parent="." instance=ExtResource( 2 )]
-editor/display_folded = true
+
+[node name="Skeleton" parent="Scene Root/Robot_Skeleton" index="0"]
+bones/46/bound_children = [ NodePath("gun_bone") ]
 
 [node name="gun_bone" type="BoneAttachment" parent="Scene Root/Robot_Skeleton/Skeleton" index="5"]
-transform = Transform( 0.9185, -0.240428, 0.314237, -0.235721, -0.970361, -0.0537841, 0.31789, -0.0246481, -0.947819, -0.207095, 1.39792, 0.464229 )
+transform = Transform( 0.906748, -0.251436, 0.338785, -0.251749, -0.966821, -0.044072, 0.338663, -0.0452999, -0.93983, -0.207409, 1.36888, 0.529062 )
 bone_name = "hand.R"
 
 [node name="shoot_from" type="Position3D" parent="Scene Root/Robot_Skeleton/Skeleton/gun_bone"]
@@ -344,7 +346,7 @@ anim_player = NodePath("../Scene Root/AnimationPlayer")
 active = true
 process_mode = 0
 root_motion_track = NodePath("Robot_Skeleton/Skeleton:root")
-parameters/aim/add_amount = 0
+parameters/aim/add_amount = 0.0
 parameters/eye_blend/blend_amount = 1.0
 parameters/land/active = false
 parameters/state/current = 0
@@ -352,21 +354,20 @@ parameters/strafe/blend_position = Vector2( 0, 0 )
 parameters/walk/blend_position = Vector2( 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 1.03615, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.03615, 0 )
 shape = SubResource( 23 )
 
 [node name="CollisionShape2" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 1.00357, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.00357, 0 )
 shape = SubResource( 24 )
 
 [node name="camera_base" type="Spatial" parent="."]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85456, 0 )
 
 [node name="camera_rot" type="Spatial" parent="camera_base"]
 
 [node name="Camera" type="Camera" parent="camera_base/camera_rot"]
-transform = Transform( -1, 1.77636e-014, -8.74227e-008, -3.17959e-008, 0.931515, 0.363703, 8.14356e-008, 0.363703, -0.931515, 0, 0.592719, -2.15676 )
+transform = Transform( -1, 1.77636e-14, -8.74227e-08, -3.17959e-08, 0.931515, 0.363703, 8.14356e-08, 0.363703, -0.931515, 0, 0.592719, -2.15676 )
 current = true
 far = 300.0
 
@@ -387,7 +388,6 @@ margin_bottom = 8.16064
 texture = ExtResource( 3 )
 
 [node name="sfx" type="Node" parent="."]
-editor/display_folded = true
 
 [node name="step" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 4 )
@@ -495,8 +495,6 @@ theme = ExtResource( 13 )
 text = "10"
 valign = 1
 
-[connection signal="Kill_count" from="." to="Interface/Counters/RupeeCounter" method="_on_robot_Kill_count"]
-[connection signal="Kill_increase_counter" from="." to="Interface/Counters/RupeeCounter" method="_on_robot_Kill_increase_counter"]
 [connection signal="health_changed" from="Health" to="Interface" method="_on_Health_health_changed"]
 [connection signal="health_updated" from="Interface" to="Interface/Bars/LifeBar" method="_on_Interface_health_updated"]
 [connection signal="rupees_updated" from="Interface" to="Interface/Counters/RupeeCounter" method="_on_Interface_rupees_updated"]

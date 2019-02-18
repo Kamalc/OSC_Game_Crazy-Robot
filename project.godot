@@ -16,15 +16,21 @@ _global_script_class_icons={
 [application]
 
 config/name="3rd Person 3.1"
-run/main_scene="res://Scene/World.tscn"
+run/main_scene="res://interface/Menu.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Network="*res://Script/Network.gd"
+
+[debug]
+
+settings/stdout/print_fps=true
 
 [display]
 
-window/size/width=1366
-window/size/height=768
+window/size/width=800
 window/size/resizable=false
-window/size/fullscreen=true
 
 [input]
 
@@ -69,6 +75,12 @@ Laser={
  ]
 }
 
+[physics]
+
+3d/physics_engine="GodotPhysics - deprecated"
+
 [rendering]
 
+quality/driver/driver_name="GLES2"
+threads/thread_model=2
 environment/default_environment="res://default_env.tres"

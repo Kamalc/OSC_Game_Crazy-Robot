@@ -29,8 +29,9 @@ settings/stdout/print_fps=true
 
 [display]
 
-window/size/width=800
+window/size/height=768
 window/size/resizable=false
+window/size/fullscreen=true
 
 [input]
 
@@ -78,6 +79,7 @@ Laser={
 [physics]
 
 3d/physics_engine="GodotPhysics - deprecated"
+3d/active_soft_world=false
 
 [rendering]
 

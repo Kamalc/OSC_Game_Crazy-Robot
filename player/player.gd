@@ -96,13 +96,12 @@ func _physics_process(delta):
 
 
 	if (on_air):
-		
 		if (velocity.y > 0):
 			$animation_tree["parameters/state/current"]=2
 		else:
 			$animation_tree["parameters/state/current"]=3
 	
-	if (aiming):
+	elif(aiming):
 		
 		# change state to strafe
 		$animation_tree["parameters/state/current"]=0
@@ -125,10 +124,23 @@ func _physics_process(delta):
 
 
 		# get root motion transform
-		root_motion = $animation_tree.get_root_motion_transform()		
+		root_motion = $animation_tree.get_root_motion_transform()
 
-		if (Input.is_action_just_pressed("shoot")) and is_network_master():
-			rpc("shoot")
+		if (Input.is_action_just_pressed('shoot')) and is_network_master():
+			var shoot_from = $"Scene Root/Robot_Skeleton/Skeleton/gun_bone/shoot_from".global_transform.origin
+			var cam = $camera_base/camera_rot/Camera
+			var ch_pos = $crosshair.rect_position + $crosshair.rect_size * 0.5
+			var ray_from = cam.project_ray_origin(ch_pos)
+			var ray_dir = cam.project_ray_normal(ch_pos)
+			var shoot_target
+			var col = get_world().direct_space_state.intersect_ray( ray_from, ray_from + ray_dir * 1000, [self] )
+			if (col.empty()):
+				shoot_target = ray_from + ray_dir * 1000
+			else:
+				shoot_target = col.position
+			var shoot_dir = (shoot_target - shoot_from).normalized()
+			
+			rpc('shoot',shoot_from,shoot_dir)
 			
 	else: 		
 		# convert orientation to quaternions for interpolating rotation
@@ -160,43 +172,24 @@ func _physics_process(delta):
 	velocity.x = h_velocity.x
 	velocity.z = h_velocity.z		
 	velocity += GRAVITY * delta
-	velocity = move_and_slide(velocity,Vector3(0,1,0))
+	velocity = move_and_slide(velocity,-GRAVITY.normalized())
 
 	orientation.origin = Vector3() #clear accumulated root motion displacement (was applied to speed)
 	orientation = orientation.orthonormalized() # orthonormalize orientation
 	
 	$"Scene Root".global_transform.basis = orientation.basis
-	
-	
-		
-		
-	
-	
+
+
+
 func init(name, new_position, is_slave):
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	transform.origin = new_position
 
 
-remotesync func shoot():
-	var shoot_from = $"Scene Root/Robot_Skeleton/Skeleton/gun_bone/shoot_from".global_transform.origin
-	var cam = $camera_base/camera_rot/Camera
-	
-	var ch_pos = $crosshair.rect_position + $crosshair.rect_size * 0.5
-	var ray_from = cam.project_ray_origin(ch_pos)
-	var ray_dir = cam.project_ray_normal(ch_pos)
-	var shoot_target
-	
-	var col = get_world().direct_space_state.intersect_ray( ray_from, ray_from + ray_dir * 1000, [self] )
-	if (col.empty()):
-		shoot_target = ray_from + ray_dir * 1000
-	else:
-		shoot_target = col.position
-		
-	var shoot_dir = (shoot_target - shoot_from).normalized()
-	
+remotesync func shoot(shoot_from,shoot_dir):
 	var bullet = preload("res://player/bullet.tscn").instance()
 	get_parent().add_child(bullet)
 	bullet.global_transform.origin = shoot_from
-	bullet.direction = shoot_dir 	
+	bullet.direction = shoot_dir 
 	bullet.add_collision_exception_with(self)
 	$sfx/shoot.play()

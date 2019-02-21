@@ -3,7 +3,7 @@ extends Control
 var _player_name = ""
 
 func _ready():
-	$VBoxContainer/selfIPHBContainer/TextField.text = IP.get_local_addresses()[1]
+	$VBoxContainer/selfIPHBContainer/TextField.text = IP.get_local_addresses()[0]
 
 func _on_TextField_text_changed(new_text):
 	_player_name = new_text

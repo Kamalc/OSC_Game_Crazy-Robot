@@ -16,6 +16,8 @@ const CAMERA_X_ROT_MAX = 30
 
 puppet var camera_x_rot = 0.0
 
+puppet var puppet_camera_base_rot = Vector3()
+
 var velocity = Vector3()
 
 var orientation = Transform()
@@ -54,6 +56,7 @@ func _physics_process(delta):
 		var motion_target = Vector2( 	Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 										Input.get_action_strength("move_forward") - Input.get_action_strength("move_back") )
 		motion = motion.linear_interpolate(motion_target, MOTION_INTERPOLATE_SPEED * delta)
+		rset('puppet_camera_base_rot',$camera_base.rotation)
 		rset("motion",motion)
 		rset_unreliable('puppet_pos',transform.origin)
 		var current_aim = Input.is_action_pressed("aim")
@@ -66,6 +69,7 @@ func _physics_process(delta):
 		rset('aiming',aiming)
 	else:
 		transform.origin = puppet_pos
+		$camera_base.rotation=puppet_camera_base_rot
 		$camera_base/camera_rot.rotation.x =  camera_x_rot
 	var cam_z = - $camera_base/camera_rot/Camera.global_transform.basis.z			
 	var cam_x = $camera_base/camera_rot/Camera.global_transform.basis.x

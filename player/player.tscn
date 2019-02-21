@@ -327,7 +327,7 @@ script = ExtResource( 1 )
 bones/46/bound_children = [ NodePath("gun_bone") ]
 
 [node name="gun_bone" type="BoneAttachment" parent="Scene Root/Robot_Skeleton/Skeleton" index="5"]
-transform = Transform( 0.902159, -0.25052, 0.351475, -0.258214, -0.965774, -0.0259107, 0.345972, -0.0673499, -0.935838, -0.207116, 1.36774, 0.535098 )
+transform = Transform( 0.918536, -0.239867, 0.314561, -0.235827, -0.970447, -0.0517246, 0.317708, -0.0266474, -0.947826, -0.207096, 1.39744, 0.465342 )
 bone_name = "hand.R"
 
 [node name="shoot_from" type="Position3D" parent="Scene Root/Robot_Skeleton/Skeleton/gun_bone"]

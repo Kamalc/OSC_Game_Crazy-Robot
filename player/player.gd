@@ -16,7 +16,7 @@ const CAMERA_X_ROT_MAX = 30
 
 puppet var camera_x_rot = 0.0
 
-puppet var puppet_camera_base_rot = Vector3()
+puppet var puppet_camera_base_rot_y = 0.0
 
 var velocity = Vector3()
 
@@ -29,8 +29,12 @@ const JUMP_SPEED = 5
 
 var root_motion = Transform()
 
-enum ANIMATION_STATE{STRAFE=0,WALK=1,JUMP_UP=2,JUMP_DOWN=3}
-puppet var current_animation = ANIMATION_STATE.STRAFE
+export var health = 100
+
+
+signal took_damage(damage) 
+
+
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -56,7 +60,7 @@ func _physics_process(delta):
 		var motion_target = Vector2( 	Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 										Input.get_action_strength("move_forward") - Input.get_action_strength("move_back") )
 		motion = motion.linear_interpolate(motion_target, MOTION_INTERPOLATE_SPEED * delta)
-		rset('puppet_camera_base_rot',$camera_base.rotation)
+		rset('puppet_camera_base_rot_y',$camera_base.rotation.y)
 		rset("motion",motion)
 		rset_unreliable('puppet_pos',transform.origin)
 		var current_aim = Input.is_action_pressed("aim")
@@ -69,7 +73,7 @@ func _physics_process(delta):
 		rset('aiming',aiming)
 	else:
 		transform.origin = puppet_pos
-		$camera_base.rotation=puppet_camera_base_rot
+		$camera_base.rotation.y=puppet_camera_base_rot_y
 		$camera_base/camera_rot.rotation.x =  camera_x_rot
 	var cam_z = - $camera_base/camera_rot/Camera.global_transform.basis.z			
 	var cam_x = $camera_base/camera_rot/Camera.global_transform.basis.x
@@ -197,3 +201,14 @@ remotesync func shoot(shoot_from,shoot_dir):
 	bullet.direction = shoot_dir 
 	bullet.add_collision_exception_with(self)
 	$sfx/shoot.play()
+
+
+
+func hit(damage,name):
+	rpc('_synced_hit',damage,name)
+
+remotesync func _synced_hit(damage,name):
+	health-=int(damage)
+	$Interface._on_robot_took_damage(damage)
+	if health<=0:
+		queue_free()

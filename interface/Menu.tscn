@@ -126,8 +126,6 @@ texture_pressed = ExtResource( 7 )
 expand = true
 stretch_mode = 5
 
-[connection signal="text_changed" from="VBoxContainer/HBoxContainer/TextField" to="." method="_on_TextField_text_changed"]
-[connection signal="text_changed" from="VBoxContainer/selfIPHBContainer/TextField" to="." method="_on_TextField_text_changed"]
-[connection signal="text_changed" from="VBoxContainer/HBoxContainer3/TextField" to="." method="_on_TextField_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/TextField" to="." method="_on_Name_TextField_text_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/JoinButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/CreateButton" to="." method="_on_CreateButton_pressed"]

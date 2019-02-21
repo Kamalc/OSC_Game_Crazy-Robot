@@ -6,7 +6,7 @@ extends KinematicBody
 var Player_Name =""
 var time_alive=5
 var direction = Vector3()
-
+const BULLET_DAMAGE = 6
 const BULLET_VELOCITY = 20
 var hit=false
 
@@ -21,7 +21,7 @@ func _process(delta):
 	var col = move_and_collide(delta * direction * BULLET_VELOCITY)
 	if (col):
 		if (col.collider and col.collider.has_method("hit")):
-			col.collider.hit(time_alive,Player_Name)
+			col.collider.hit(BULLET_DAMAGE*time_alive,Player_Name)
 		$CollisionShape.disabled=true
 		$anim.play("explode")
 		hit=true

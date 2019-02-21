@@ -3,9 +3,9 @@ extends Control
 var _player_name = ""
 
 func _ready():
-	$VBoxContainer/selfIPHBContainer/TextField.text = IP.get_local_addresses()[0]
+	$VBoxContainer/selfIPHBContainer/TextField.text = IP.get_local_addresses()[1]
 
-func _on_TextField_text_changed(new_text):
+func _on_Name_TextField_text_changed(new_text):
 	_player_name = new_text
 
 func _on_CreateButton_pressed():
@@ -23,3 +23,4 @@ func _on_JoinButton_pressed():
 
 func _load_game():
 	get_tree().change_scene('res://Scene/World.tscn')
+

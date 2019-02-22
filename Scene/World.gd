@@ -10,6 +10,7 @@ func _ready():
 	$Players.add_child(new_player)
 	var info = Network.self_data
 	new_player.init(info.name, info.position, false)
+	print(IP.get_local_addresses())
 
 func _on_player_disconnected(id):
 	get_node('Players/'+str(id)).queue_free()

@@ -15,8 +15,8 @@ func _on_CreateButton_pressed():
 	_load_game()
 
 func _on_JoinButton_pressed():
-	var server_ip = $VBoxContainer/selfIPHBContainer/TextField.text
-	if _player_name == "" or server_ip == "":
+	var server_ip = $VBoxContainer/ServerHBoxContainer/TextField.text
+	if _player_name == "" or server_ip == "" or not server_ip.is_valid_ip_address():
 		return
 	Network.connect_to_server(_player_name,server_ip)
 	_load_game()

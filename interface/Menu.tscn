@@ -31,20 +31,20 @@ custom_fonts/font = ExtResource( 2 )
 text = "Lobby"
 align = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="NameHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 72.0
 margin_right = 630.0
 margin_bottom = 124.0
 custom_constants/separation = 20
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/NameHBoxContainer"]
 margin_right = 255.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 2 )
 text = "Your name:"
 align = 2
 
-[node name="TextField" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="TextField" type="LineEdit" parent="VBoxContainer/NameHBoxContainer"]
 margin_left = 275.0
 margin_right = 630.0
 margin_bottom = 52.0
@@ -54,6 +54,7 @@ size_flags_vertical = 3
 custom_fonts/font = ExtResource( 3 )
 
 [node name="selfIPHBContainer" type="HBoxContainer" parent="VBoxContainer"]
+editor/display_folded = true
 margin_top = 144.0
 margin_right = 630.0
 margin_bottom = 196.0
@@ -75,20 +76,20 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 3 )
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+[node name="ServerHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 216.0
 margin_right = 630.0
 margin_bottom = 268.0
 custom_constants/separation = 20
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="VBoxContainer/ServerHBoxContainer"]
 margin_right = 251.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 2 )
 text = "Server'S IP:"
 align = 2
 
-[node name="TextField" type="LineEdit" parent="VBoxContainer/HBoxContainer3"]
+[node name="TextField" type="LineEdit" parent="VBoxContainer/ServerHBoxContainer"]
 margin_left = 271.0
 margin_right = 630.0
 margin_bottom = 52.0
@@ -97,13 +98,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 3 )
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="ButtonsHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+editor/display_folded = true
 margin_top = 288.0
 margin_right = 630.0
 margin_bottom = 384.0
 custom_constants/separation = 0
 
-[node name="JoinButton" type="TextureButton" parent="VBoxContainer/HBoxContainer2"]
+[node name="JoinButton" type="TextureButton" parent="VBoxContainer/ButtonsHBoxContainer"]
 margin_right = 315.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 192, 96 )
@@ -114,7 +116,7 @@ texture_pressed = ExtResource( 5 )
 expand = true
 stretch_mode = 5
 
-[node name="CreateButton" type="TextureButton" parent="VBoxContainer/HBoxContainer2"]
+[node name="CreateButton" type="TextureButton" parent="VBoxContainer/ButtonsHBoxContainer"]
 margin_left = 315.0
 margin_right = 630.0
 margin_bottom = 96.0
@@ -126,6 +128,6 @@ texture_pressed = ExtResource( 7 )
 expand = true
 stretch_mode = 5
 
-[connection signal="text_changed" from="VBoxContainer/HBoxContainer/TextField" to="." method="_on_Name_TextField_text_changed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer2/JoinButton" to="." method="_on_JoinButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer2/CreateButton" to="." method="_on_CreateButton_pressed"]
+[connection signal="text_changed" from="VBoxContainer/NameHBoxContainer/TextField" to="." method="_on_Name_TextField_text_changed"]
+[connection signal="pressed" from="VBoxContainer/ButtonsHBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonsHBoxContainer/CreateButton" to="." method="_on_CreateButton_pressed"]

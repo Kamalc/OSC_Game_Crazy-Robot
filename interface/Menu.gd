@@ -22,5 +22,5 @@ func _on_JoinButton_pressed():
 	_load_game()
 
 func _load_game():
-	get_tree().change_scene('res://Scene/World.tscn')
+	get_tree().change_scene('res://Main.tscn')
 

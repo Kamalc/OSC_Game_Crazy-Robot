@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://new_Enviroment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Environment/2016_04_09_ALMA_Central_Array_Reproj-CC.jpg" type="Texture" id=3]
+[ext_resource path="res://player/AFK.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PanoramaSky" id=1]
 
@@ -24,4 +25,109 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -27.337 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
+
+[node name="Robots" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.308 )
+
+[node name="robot" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.1, 9 )
+
+[node name="robot18" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.242, 0.1, 9 )
+
+[node name="robot2" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.588013, 0, 0.808851, 0, 1, 0, -0.808851, 0, 0.588013, 10, 0.1, 1.27553 )
+
+[node name="robot33" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.588013, 0, 0.808851, 0, 1, 0, -0.808851, 0, 0.588013, -34.242, 0.1, 1.27553 )
+
+[node name="robot3" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.234695, 0, 0.972069, 0, 1, 0, -0.972069, 0, -0.234695, 10, 0.1, 16.4773 )
+
+[node name="robot34" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.234695, 0, 0.972069, 0, 1, 0, -0.972069, 0, -0.234695, -34.242, 0.1, 16.4773 )
+
+[node name="robot4" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.988459, 0, 0.151489, 0, 1, 0, -0.151489, 0, 0.988459, 19.4751, 0.1, 16.4773 )
+
+[node name="robot22" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.988459, 0, 0.151489, 0, 1, 0, -0.151489, 0, 0.988459, -24.767, 0.1, 16.4773 )
+
+[node name="robot5" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.285459, 0, -0.958391, 0, 1, 0, 0.958391, 0, 0.285459, 19.4751, 0.1, 27.5888 )
+
+[node name="robot23" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.285459, 0, -0.958391, 0, 1, 0, 0.958391, 0, 0.285459, -24.767, 0.1, 27.5888 )
+
+[node name="robot6" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.996763, 0, -0.0803939, 0, 1, 0, 0.0803939, 0, 0.996763, -7.53577, 0.1, 27.5888 )
+
+[node name="robot25" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.996763, 0, -0.0803939, 0, 1, 0, 0.0803939, 0, 0.996763, -51.7778, 0.1, 27.5888 )
+
+[node name="robot14" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.818889, 0, 0.573951, 0, 1, 0, -0.573951, 0, 0.818889, -7.53577, 0.1, 53.9168 )
+
+[node name="robot26" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.818889, 0, 0.573951, 0, 1, 0, -0.573951, 0, 0.818889, -51.7778, 0.1, 53.9168 )
+
+[node name="robot15" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.976867, 0, 0.213847, 0, 1, 0, -0.213847, 0, -0.976867, 4.63933, 0.1, 53.9168 )
+
+[node name="robot30" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.976867, 0, 0.213847, 0, 1, 0, -0.213847, 0, -0.976867, -39.6027, 0.1, 53.9168 )
+
+[node name="robot16" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.281715, 0, -0.959498, 0, 1, 0, 0.959498, 0, -0.281715, 4.63933, 0.1, 41.3856 )
+
+[node name="robot31" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.281715, 0, -0.959498, 0, 1, 0, 0.959498, 0, -0.281715, -39.6027, 0.1, 46.3796 )
+
+[node name="robot17" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.0859005, 0, 0.996304, 0, 1, 0, -0.996304, 0, -0.0859005, 11.5865, 0.1, 41.3856 )
+
+[node name="robot20" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.0859005, 0, 0.996304, 0, 1, 0, -0.996304, 0, -0.0859005, -32.6555, 0.1, 41.3856 )
+
+[node name="robot7" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.936738, 0, 0.350032, 0, 1, 0, -0.350032, 0, 0.936738, -17.4913, 0.1, 1.97872 )
+
+[node name="robot28" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.936738, 0, 0.350032, 0, 1, 0, -0.350032, 0, 0.936738, -61.7333, 0.1, 1.97872 )
+
+[node name="robot8" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.590265, 0, -0.80721, 0, 1, 0, 0.80721, 0, 0.590265, -1.78128, 0.1, -20.1045 )
+
+[node name="robot27" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.590265, 0, -0.80721, 0, 1, 0, 0.80721, 0, 0.590265, -60.9731, 0.208954, -42.0898 )
+
+[node name="robot13" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.319842, 0, 0.947471, 0, 1, 0, -0.947471, 0, 0.319842, -31.295, 0.1, -20.1045 )
+
+[node name="robot29" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.319842, 0, 0.947471, 0, 1, 0, -0.947471, 0, 0.319842, -75.5371, 0.1, -20.1045 )
+
+[node name="robot9" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.801164, 0, -0.598445, 0, 1, 0, 0.598445, 0, -0.801164, 9.04046, 0.1, -20.1045 )
+
+[node name="robot32" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.801164, 0, -0.598445, 0, 1, 0, 0.598445, 0, -0.801164, -35.2016, 0.1, -47.1967 )
+
+[node name="robot10" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.694869, 0, 0.719136, 0, 1, 0, -0.719136, 0, -0.694869, 21.0284, 0.1, -33.2389 )
+
+[node name="robot19" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.694869, 0, 0.719136, 0, 1, 0, -0.719136, 0, -0.694869, -23.2136, 0.1, -33.2389 )
+
+[node name="robot11" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.936738, 0, 0.350032, 0, 1, 0, -0.350032, 0, 0.936738, 21.0284, 0.1, -3.89943 )
+
+[node name="robot24" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( 0.936738, 0, 0.350032, 0, 1, 0, -0.350032, 0, 0.936738, -23.2136, 0.1, -3.89943 )
+
+[node name="robot12" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.0674144, 0, 0.997725, 0, 1, 0, -0.997725, 0, -0.0674144, 21.0284, 0.1, -3.89943 )
+
+[node name="robot21" parent="Robots" instance=ExtResource( 4 )]
+transform = Transform( -0.0674144, 0, 0.997725, 0, 1, 0, -0.997725, 0, -0.0674144, -23.2136, 0.1, -3.89943 )
 

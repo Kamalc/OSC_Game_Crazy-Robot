@@ -1,0 +1,239 @@
+[gd_scene load_steps=31 format=2]
+
+[ext_resource path="res://player/player.dae" type="PackedScene" id=1]
+[ext_resource path="res://player/step_random_pitch.tres" type="AudioStream" id=2]
+[ext_resource path="res://player/fx_jump.wav" type="AudioStream" id=3]
+[ext_resource path="res://player/fx_land.wav" type="AudioStream" id=4]
+[ext_resource path="res://player/fx_shoot.wav" type="AudioStream" id=5]
+
+[sub_resource type="AnimationNodeAdd3" id=1]
+
+resource_local_to_scene = true
+filter_enabled = true
+filters = [ "Robot_Skeleton/Skeleton:neck.001", "Robot_Skeleton/Skeleton:upper_arm.R" ]
+
+[sub_resource type="AnimationNodeAnimation" id=2]
+
+resource_local_to_scene = true
+animation = "AIM-Down"
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+
+resource_local_to_scene = true
+animation = "AIM-Up"
+
+[sub_resource type="AnimationNodeBlend2" id=4]
+
+resource_local_to_scene = true
+filter_enabled = true
+filters = [ "Robot_Skeleton/Skeleton:eyelid.d.L", "Robot_Skeleton/Skeleton:eyelid.d.R", "Robot_Skeleton/Skeleton:eyelid.u.L", "Robot_Skeleton/Skeleton:eyelid.u.R", "Robot_Skeleton/Skeleton:eyes" ]
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+
+resource_local_to_scene = true
+animation = "eyes-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+
+resource_local_to_scene = true
+animation = "jump_5_hardlanding"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+
+resource_local_to_scene = true
+animation = "jump_4_falling-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+
+resource_local_to_scene = true
+animation = "jump_2_upwards-cycle"
+
+[sub_resource type="AnimationNodeOneShot" id=9]
+
+resource_local_to_scene = true
+fadein_time = 0.25
+fadeout_time = 0.25
+autorestart_random_delay = 3.85186e-034
+
+[sub_resource type="AnimationNodeTransition" id=10]
+
+resource_local_to_scene = true
+input_count = 4
+xfade_time = 1.0
+input_0/name = "strafe"
+input_0/auto_advance = false
+input_1/name = "walk"
+input_1/auto_advance = false
+input_2/name = "jump_up"
+input_2/auto_advance = false
+input_3/name = "jump_down"
+input_3/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+
+resource_local_to_scene = true
+animation = "strafe_left-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+
+resource_local_to_scene = true
+animation = "strafe_right-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+
+resource_local_to_scene = true
+animation = "strafe_back-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+
+resource_local_to_scene = true
+animation = "strafe_front-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=15]
+
+resource_local_to_scene = true
+animation = "Idlecombat-cycle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=16]
+
+resource_local_to_scene = true
+blend_point_0/node = SubResource( 11 )
+blend_point_0/pos = Vector2( 1, 0 )
+blend_point_1/node = SubResource( 12 )
+blend_point_1/pos = Vector2( -1, 0 )
+blend_point_2/node = SubResource( 13 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 14 )
+blend_point_3/pos = Vector2( 0, 1 )
+blend_point_4/node = SubResource( 15 )
+blend_point_4/pos = Vector2( 0, 0 )
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+
+resource_local_to_scene = true
+animation = "Idle-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+
+resource_local_to_scene = true
+animation = "running_nogun-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=19]
+
+resource_local_to_scene = true
+animation = "running_gun-cycle"
+
+[sub_resource type="AnimationNodeAnimation" id=20]
+
+resource_local_to_scene = true
+animation = "Idlecombat-cycle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=21]
+
+resource_local_to_scene = true
+blend_point_0/node = SubResource( 17 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 18 )
+blend_point_1/pos = Vector2( 1, 0 )
+blend_point_2/node = SubResource( 19 )
+blend_point_2/pos = Vector2( 1, 1 )
+blend_point_3/node = SubResource( 20 )
+blend_point_3/pos = Vector2( 0, 1 )
+min_space = Vector2( 0, 0 )
+x_label = "speed"
+y_label = "gun"
+
+[sub_resource type="AnimationNodeBlendTree" id=22]
+
+resource_local_to_scene = true
+graph_offset = Vector2( -357.331, 58.1984 )
+nodes/aim/node = SubResource( 1 )
+nodes/aim/position = Vector2( 340, 120 )
+nodes/aimdown/node = SubResource( 2 )
+nodes/aimdown/position = Vector2( 120, 120 )
+nodes/aimup/node = SubResource( 3 )
+nodes/aimup/position = Vector2( 140, 420 )
+nodes/eye_blend/node = SubResource( 4 )
+nodes/eye_blend/position = Vector2( 560, 120 )
+nodes/eyes/node = SubResource( 5 )
+nodes/eyes/position = Vector2( 340, 360 )
+nodes/hardland/node = SubResource( 6 )
+nodes/hardland/position = Vector2( -100, 440 )
+nodes/jumpdown/node = SubResource( 7 )
+nodes/jumpdown/position = Vector2( -380, 440 )
+nodes/jumpup/node = SubResource( 8 )
+nodes/jumpup/position = Vector2( -360, 320 )
+nodes/land/node = SubResource( 9 )
+nodes/land/position = Vector2( 120, 240 )
+nodes/output/position = Vector2( 760, 120 )
+nodes/state/node = SubResource( 10 )
+nodes/state/position = Vector2( -60, 180 )
+nodes/strafe/node = SubResource( 16 )
+nodes/strafe/position = Vector2( -340, 0 )
+nodes/walk/node = SubResource( 21 )
+nodes/walk/position = Vector2( -360, 160 )
+node_connections = [ "output", 0, "eye_blend", "state", 0, "strafe", "state", 1, "walk", "state", 2, "jumpup", "state", 3, "jumpdown", "land", 0, "state", "land", 1, "hardland", "eye_blend", 0, "aim", "eye_blend", 1, "eyes", "aim", 0, "aimdown", "aim", 1, "land", "aim", 2, "aimup" ]
+
+[sub_resource type="CapsuleShape" id=23]
+
+radius = 0.490082
+height = 0.560254
+
+[sub_resource type="RayShape" id=24]
+
+
+[sub_resource type="AudioStreamRandomPitch" id=25]
+
+audio_stream = ExtResource( 5 )
+
+[node name="robot" type="KinematicBody"]
+collision_layer = 3
+
+[node name="Scene Root" parent="." instance=ExtResource( 1 )]
+editor/display_folded = true
+
+[node name="gun_bone" type="BoneAttachment" parent="Scene Root/Robot_Skeleton/Skeleton" index="5"]
+transform = Transform( 0.91477, -0.254371, 0.314137, -0.241389, -0.967112, -0.0805343, 0.324329, -0.00213792, -0.945954, -0.207701, 1.37936, 0.501555 )
+bone_name = "hand.R"
+
+[node name="shoot_from" type="Position3D" parent="Scene Root/Robot_Skeleton/Skeleton/gun_bone"]
+transform = Transform( 0.999919, 0.0106283, -0.00705317, -0.0105956, 0.99993, 0.00505793, 0.00710796, -0.0049828, 0.999962, 0.0100024, -0.00491095, -0.40371 )
+
+[node name="animation_tree" type="AnimationTree" parent="."]
+tree_root = SubResource( 22 )
+anim_player = NodePath("../Scene Root/AnimationPlayer")
+active = true
+process_mode = 0
+root_motion_track = NodePath("Robot_Skeleton/Skeleton:root")
+parameters/aim/add_amount = 0.0
+parameters/eye_blend/blend_amount = 1.0
+parameters/land/active = false
+parameters/state/current = 0
+parameters/strafe/blend_position = Vector2( 0, 0 )
+parameters/walk/blend_position = Vector2( 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 1.03615, 0 )
+shape = SubResource( 23 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 1.00357, 0 )
+shape = SubResource( 24 )
+
+[node name="sfx" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="step" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 2 )
+
+[node name="jump" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 3 )
+
+[node name="land" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 4 )
+
+[node name="shoot" type="AudioStreamPlayer" parent="sfx"]
+stream = SubResource( 25 )
+
+
+[editable path="Scene Root"]

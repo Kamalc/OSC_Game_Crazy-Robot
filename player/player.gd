@@ -7,7 +7,7 @@ const CAMERA_ROTATION_SPEED = 0.001
 const GRAVITY = Vector3(0,-9.8, 0)
 const DIRECTION_INTERPOLATE_SPEED = 1
 
-const MOTION_INTERPOLATE_SPEED = 10
+const MOTION_INTERPOLATE_SPEED = 100
 const ROTATION_INTERPOLATE_SPEED = 10
 puppet var motion = Vector2()
 puppet var puppet_pos = Vector3()

@@ -61,6 +61,7 @@ animation = "jump_2_upwards-cycle"
 resource_local_to_scene = true
 fadein_time = 0.25
 fadeout_time = 0.25
+autorestart_random_delay = -5.17227e+24
 
 [sub_resource type="AnimationNodeTransition" id=10]
 
@@ -327,7 +328,7 @@ script = ExtResource( 1 )
 bones/46/bound_children = [ NodePath("gun_bone") ]
 
 [node name="gun_bone" type="BoneAttachment" parent="Scene Root/Robot_Skeleton/Skeleton" index="5"]
-transform = Transform( 0.918536, -0.239867, 0.314561, -0.235827, -0.970447, -0.0517246, 0.317708, -0.0266474, -0.947826, -0.207096, 1.39744, 0.465342 )
+transform = Transform( 0.916088, -0.243323, 0.319011, -0.239255, -0.96955, -0.0528024, 0.322181, -0.0279292, -0.946278, -0.207003, 1.39002, 0.483217 )
 bone_name = "hand.R"
 
 [node name="shoot_from" type="Position3D" parent="Scene Root/Robot_Skeleton/Skeleton/gun_bone"]

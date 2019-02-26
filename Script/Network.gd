@@ -2,7 +2,7 @@ extends Node
 
 
 const DEFAULT_PORT = 31400
-const MAX_PLAYERS = 5
+const MAX_PLAYERS = 2
 
 var players = { }
 var self_data = { name = '', position = Vector3(0, 0,0) }
@@ -57,7 +57,7 @@ remote func _send_player_info(id, info):
 	var new_player = load('res://player/player.tscn').instance()
 	new_player.name = str(id)
 	new_player.set_network_master(id)
-	$'/root/World/Players'.add_child(new_player)
+	$'/root/Main/Players'.add_child(new_player)
 	new_player.init(info.name, info.position, true)
 
 func update_position(id, position):

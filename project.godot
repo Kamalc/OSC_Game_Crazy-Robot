@@ -25,7 +25,9 @@ Network="*res://Script/Network.gd"
 
 [display]
 
-window/size/width=700
+window/size/width=680
+window/size/height=768
+window/vsync/use_vsync=false
 
 [input]
 
@@ -79,4 +81,6 @@ Laser={
 
 quality/driver/driver_name="GLES2"
 threads/thread_model=2
+quality/directional_shadow/size=2048
+quality/shadow_atlas/size=2048
 environment/default_environment="res://default_env.tres"
